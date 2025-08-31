@@ -14,7 +14,7 @@ RASA_URL  = "https://language-agnostic-chatbot.onrender.com/webhooks/rest/webhoo
 
 
 @app.route("/chat", methods=["POST"])
-def chat():
+async def chat():
     user_msg = request.json.get("message")
 
     # Step 1: Preprocess user text (detect + translate to English)
