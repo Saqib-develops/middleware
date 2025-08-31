@@ -2,5 +2,5 @@ flask[async]
 requests
 gunicorn
 flask-cors
-googletrans
+googletrans==3.1.0a0
 langdetect
