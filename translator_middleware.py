@@ -1,19 +1,17 @@
 from langdetect import detect
 from googletrans import Translator
 
+import asyncio
+
 translator = Translator()
 
-def preprocess_user_message(user_text):
-    """Detect language + translate to English for Rasa"""
-    try:
-        detected_lang = detect(user_text)
-    except:
-        detected_lang = "en"
+async def preprocess_user_message(user_text):
+    detected = translator.detect(user_text)
+    detected_lang = detected.lang if detected else "en"
 
-    if detected_lang != "en":
-        translated = translator.translate(user_text, src=detected_lang, dest="en").text
-        return translated, detected_lang
-    return user_text, "en"
+    # Await the coroutine
+    translated = await translator.translate(user_text, src=detected_lang, dest="en")
+    return translated.text, detected_lang
 
 
 def postprocess_bot_response(bot_text, target_lang):
