@@ -6,7 +6,7 @@ import asyncio
 translator = Translator()
 
 async def preprocess_user_message(user_text):
-    detected = translator.detect(user_text)
+    detected = await translator.detect(user_text)
     detected_lang = detected.lang if detected else "en"
 
     # Await the coroutine
