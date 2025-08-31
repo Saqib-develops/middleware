@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Rasa backend URL
-RASA_URL = "http://localhost:5005/webhooks/rest/webhook"
+RASA_URL = "https://language-agnostic-chatbot.onrender.com"
 
 @app.route("/chat", methods=["POST"])
 def chat():
