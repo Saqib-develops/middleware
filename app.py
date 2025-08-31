@@ -14,25 +14,16 @@ RASA_URL  = "https://language-agnostic-chatbot.onrender.com/webhooks/rest/webhoo
 
 
 @app.route("/chat", methods=["POST"])
+@app.route("/chat", methods=["POST"])
 async def chat():
-    user_msg = request.json.get("message")
+    data = request.json
+    user_msg = data.get("message", "")
 
-    # Step 1: Preprocess user text (detect + translate to English)
-    translated_msg, lang = await asyncio.run(preprocess_user_message(user_msg))
+    translated_msg, lang = await preprocess_user_message(user_msg)
 
-    # Step 2: Send to Rasa
-    rasa_response = requests.post(RASA_URL, json={"sender": "user", "message": translated_msg})
-    rasa_response = rasa_response.json()
-
-    # Step 3: Translate Rasa response back to user’s language
-    final_responses = []
-    for res in rasa_response:
-        bot_text = res.get("text")
-        if bot_text:
-            translated_text = postprocess_bot_response(bot_text, lang)
-            final_responses.append({"text": translated_text})
-
-    return jsonify(final_responses)
+    # forward to Rasa or your logic...
+    response = {"reply": f"Processed: {translated_msg} (lang: {lang})"}
+    return jsonify(response)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
