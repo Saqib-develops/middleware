@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 import requests
+import os
 from flask_cors import CORS 
 from translator_middleware import preprocess_user_message, postprocess_bot_response
+
 
 app = Flask(__name__)
 CORS(app)
@@ -31,6 +33,6 @@ def chat():
 
     return jsonify(final_responses)
 
-
 if __name__ == "__main__":
-    app.run(port=8000, debug=True)
+    port = int(os.environ.get("PORT", 8000))
+    app.run(host="0.0.0.0", port=port, debug=True)
