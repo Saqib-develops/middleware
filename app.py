@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import requests
 import os
 from flask_cors import CORS 
+import asyncio
 from translator_middleware import preprocess_user_message, postprocess_bot_response
 
 
@@ -17,7 +18,7 @@ def chat():
     user_msg = request.json.get("message")
 
     # Step 1: Preprocess user text (detect + translate to English)
-    translated_msg, lang = preprocess_user_message(user_msg)
+   translated_msg, lang = asyncio.run(preprocess_user_message(user_msg))
 
     # Step 2: Send to Rasa
     rasa_response = requests.post(RASA_URL, json={"sender": "user", "message": translated_msg})
