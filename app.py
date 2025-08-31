@@ -18,7 +18,7 @@ def chat():
     user_msg = request.json.get("message")
 
     # Step 1: Preprocess user text (detect + translate to English)
-   translated_msg, lang = asyncio.run(preprocess_user_message(user_msg))
+    translated_msg, lang = asyncio.run(preprocess_user_message(user_msg))
 
     # Step 2: Send to Rasa
     rasa_response = requests.post(RASA_URL, json={"sender": "user", "message": translated_msg})
