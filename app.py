@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 import requests
 import os
 from flask_cors import CORS 
-import asyncio
 from translator_middleware import preprocess_user_message, postprocess_bot_response
 
 
